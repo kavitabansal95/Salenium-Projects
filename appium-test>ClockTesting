@@ -1,0 +1,68 @@
+package gradle1;
+
+
+import static org.junit.Assert.assertEquals;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+
+
+public class firstappiumTest {
+	private AppiumDriver driver;
+	
+		@Before
+		public void initBrowser() throws MalformedURLException {
+		DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+		desiredCapabilities.setCapability("platformName", "Android");
+		desiredCapabilities.setCapability("platformVersion", "10.0");
+		desiredCapabilities.setCapability("deviceName", "Pixel 3a XL Q");
+		desiredCapabilities.setCapability("automationName", "UiAutomator2");
+		desiredCapabilities.setCapability("appPackage", "com.google.android.deskclock");
+		desiredCapabilities.setCapability("appActivity", "com.android.deskclock.DeskClock");
+	    desiredCapabilities.setCapability("avd", "Pixel_3a_XL_Q");
+	//	desiredCapabilities.setCapability("app", "/Users/kbansal/Downloads/ApiDemos-debug.apk");
+        URL url = new URL("http://127.0.0.1:4723/wd/hub");
+        driver = new AndroidDriver(url, desiredCapabilities);
+     	String sessionId = driver.getSessionId().toString();
+		}
+     	
+     	
+     	
+		@Test
+     	public void scrolltab() {
+     	MobileElement timer = (MobileElement) driver.findElementByAccessibilityId("Timer");
+     	MobileElement Alarm = (MobileElement) driver.findElementByAccessibilityId("Alarm");
+     	MobileElement Stopwatch = (MobileElement) driver.findElementByAccessibilityId("Stopwatch");
+     	MobileElement opts = (MobileElement) driver.findElementByAccessibilityId("More options");
+     	MobileElement TD = (MobileElement) driver.findElementByAccessibilityId("Sunday, May 10");
+     	MobileElement Clock = (MobileElement) driver.findElementByAccessibilityId("Clock");
+     	timer.click();
+     	Alarm.click();
+     	Stopwatch.click();
+     	Clock.click();
+     	System.out.println(TD.getText());
+     	opts.click();
+     	
+     	
+     	}
+
+
+
+		
+
+ 
+
+	
+
+}
