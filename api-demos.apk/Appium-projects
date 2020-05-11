@@ -1,0 +1,80 @@
+package gradle2;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+
+
+
+public class ApiDemostest {
+private static AppiumDriver driver;
+private static AndroidDriver driver1;
+	
+	
+
+
+
+    @BeforeClass
+    public static void initBrowser() throws MalformedURLException {
+	DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+	desiredCapabilities.setCapability("platformName", "Android");
+	desiredCapabilities.setCapability("platformVersion", "10.0");
+	desiredCapabilities.setCapability("deviceName", "Pixel 3a XL Q");
+	desiredCapabilities.setCapability("automationName", "UiAutomator2");
+	desiredCapabilities.setCapability("appPackage", "io.appium.android.apis");
+	desiredCapabilities.setCapability("appActivity", ".ApiDemos");
+    desiredCapabilities.setCapability("avd", "Pixel_3a_XL_Q");
+//	desiredCapabilities.setCapability("app", "/Users/kbansal/Downloads/ApiDemos-debug.apk");
+    URL url = new URL("http://127.0.0.1:4723/wd/hub");
+    driver = new AndroidDriver(url, desiredCapabilities);
+    driver1 = new AndroidDriver(url, desiredCapabilities);
+ 	String sessionId = driver.getSessionId().toString();
+	}
+    
+    @AfterClass
+    public static void cleanup() {
+    driver.quit();
+    driver1.quit();}
+
+    
+    
+    @Test
+    public void prefwifi() {
+    	driver.findElementByXPath("//android.widget.TextView[@text='Preference']").click();
+    	driver.findElementByXPath("//android.widget.TextView[@text='3. Preference dependencies']").click();
+    	driver.findElementById("android:id/checkbox").click();
+    	driver.findElementByXPath("(//android.widget.RelativeLayout)[2]").click();
+    	System.out.println("wi-fi settings are displayed->   "+driver.findElementById("android:id/parentPanel").isDisplayed());
+    	driver.findElementById("android:id/edit").sendKeys("Wi-Fi settings");
+    	driver.findElementById("android:id/button1").click();
+    	driver.navigate().back();
+    	driver.navigate().back();
+    	
+    	
+        }
+    
+    @Test
+    public void views() {
+    	System.out.println(driver1.findElementsByAndroidUIAutomator("new UiSelector().clickable(true)").size());
+    	System.out.println(((WebElement) driver1.findElementsByAndroidUIAutomator("new UiSelector().clickable(true)")).getText());
+    	
+    	driver1.findElementByAndroidUIAutomator("text(\"Views\")").click();
+    	driver1.findElementByAndroidUIAutomator("text(\"Animation\")").click();
+    }
+	
+ 	
+ 	
+ 	}
+
