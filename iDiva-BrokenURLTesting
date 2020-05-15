@@ -1,0 +1,65 @@
+package BrokenURLS;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+
+public class BrokenURLTesting {
+
+	public static void main(String[] args) throws Exception {
+		System.setProperty("webdriver.chrome.driver", "/Users/kbansal/Documents/Salenium/RedBus/redbusdoc/chromedriver");
+		ChromeOptions options = new ChromeOptions();
+		 options.addArguments("window-size=1400,800");
+		 options.addArguments("headless");
+		 
+		// TODO Auto-generated method stub
+		
+	  WebDriver driver = new ChromeDriver(options);
+		driver.manage().deleteAllCookies();
+		
+    driver.get("https://www.idiva.com/");
+		driver.manage().window().maximize();
+		
+    driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		
+    String Title = driver.getTitle();
+		System.out.println(Title);
+		
+		
+		
+		
+		
+		List<WebElement> links = driver.findElements(By.tagName("a"));
+		links.addAll(driver.findElements(By.tagName("img")));
+		
+		System.out.println("Total Links>>>>" + links.size());
+		
+		List<WebElement> activelinks = new ArrayList<WebElement>();
+		for (int i = 0; i < links.size(); i++) {
+			if (links.get(i).getAttribute("href") != null && (!links.get(i).getAttribute("href").contains("javascript"))) {
+				//System.out.println(links.get(i).getAttribute("href"));
+				activelinks.add(links.get(i));
+			}}
+			              
+			  for (int j = 0; j < activelinks.size(); j++) {
+				HttpURLConnection connection	=(HttpURLConnection)new URL(activelinks.get(j).getAttribute("href")).openConnection();
+				connection.connect();
+				String Response=connection.getResponseMessage();
+				connection.disconnect();
+				System.out.println(activelinks.get(j).getAttribute("href") + ">>>>>>>" + Response);
+				
+			}
+			
+			}
+			
+		}
